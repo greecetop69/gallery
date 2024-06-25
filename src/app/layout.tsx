@@ -16,8 +16,8 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
-      <html lang="en" >
-      <NextSSRPlugin
+      <html lang="en">
+        <NextSSRPlugin
           routerConfig={extractRouterConfig(ourFileRouter)}
         />
         <body className="flex flex-col gap-4">

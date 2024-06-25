@@ -1,4 +1,4 @@
-import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { getMyImages } from "~/server/queries";
 import Image from 'next/image'
 
@@ -21,10 +21,9 @@ async function Images() {
 
 export default async function HomePage() {
   return (
-    <main className="">
+    <main >
       <SignedOut>
         <div className="w-full h-full text-2xl text-center">Please sign in above</div>
-        <SignInButton />
       </SignedOut>
       <SignedIn>
         <Images />
