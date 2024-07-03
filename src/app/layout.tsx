@@ -13,18 +13,24 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({ children, modal }: { children: React.ReactNode, modal: React.ReactNode }) {
+export default function RootLayout({
+  children,
+  modal,
+}: {
+  children: React.ReactNode;
+  modal: React.ReactNode;
+}) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <NextSSRPlugin
-          routerConfig={extractRouterConfig(ourFileRouter)}
-        />
+        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <body className="flex flex-col gap-4">
-          <TopNav />
-          {children}
+          <div className="h-screen grid-rows-[auto,1fr]">
+            <TopNav />
+            <main className="overflow-y-scroll"> {children} </main>
+          </div>
           {modal}
-          <div id="modal-root"/>
+          <div id="modal-root" />
         </body>
       </html>
     </ClerkProvider>
