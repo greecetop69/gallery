@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useUploadThing } from "~/utils/uploadthing";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 // inferred input off useUploadThing
 type Input = Parameters<typeof useUploadThing>;
@@ -49,21 +50,62 @@ function UploadSVG() {
   );
 }
 
+function LoadingSpinnerSVG() {
+  return (
+    <svg
+      width="24"
+      height="24"
+      stroke="#ffffff" // Ensure the stroke is white
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+    >
+      <g className="spinner_ajPY">
+        <circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3"></circle>
+      </g>
+    </svg>
+  );
+}
+
 export function SimpleUploadButton() {
   const router = useRouter();
-  const { inputProps } = useUploadThingInputProps("imageUploader", {
-    onUploadBegin() {
-      toast("Uploading", {
+
+  useEffect(() => {
+    toast(
+      <div className="">
+        <LoadingSpinnerSVG />
+      </div>,
+      {
         duration: 10000,
         id: "upload-begin",
-      });
+      },
+    );
+  }, []);
+
+  function makeUploadToast() {
+    return toast(
+      <div className="flex items-center gap-2 text-white">
+        <LoadingSpinnerSVG /> <span className="text-lg">Uploading...</span>
+      </div>,
+      {
+        duration: 10000,
+        id: "upload-begin",
+      },
+    );
+  }
+
+  const { inputProps } = useUploadThingInputProps("imageUploader", {
+    onUploadBegin() {
+      makeUploadToast();
     },
     onClientUploadComplete() {
-      toast.dismiss("Upload begin")
-      toast("Upload complete!")
+      toast.dismiss("Upload begin");
+      toast("Upload complete!");
       router.refresh();
     },
   });
+
+  window.makeToast = makeUploadToast;
 
   return (
     <div>
