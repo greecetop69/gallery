@@ -6,20 +6,32 @@ await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
 const coreConfig = {
-    images: {
-        remotePatterns: [{ hostname: "utfs.io" }]
-    },
-    eslint: {
-        ignoreDuringBuilds: true
-    },
-    typescript: {
-      ignoreBuildErrors: true
-    }
+  images: {
+    remotePatterns: [{ hostname: "utfs.io" }]
+  },
+  eslint: {
+    ignoreDuringBuilds: true
+  },
+  typescript: {
+    ignoreBuildErrors: true
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/ingest/static/:path*",
+        destination: "https://us-assets.i.posthog.com/static/:path*",
+      },
+      {
+        source: "/ingest/:path*",
+        destination: "https://us.i.posthog.com/:path*",
+      },
+    ];
+  },
 };
 
 import { withSentryConfig } from "@sentry/nextjs";
 
-const config = withSentryConfig(coreConfig ,
+const config = withSentryConfig(coreConfig,
   {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
