@@ -8,5 +8,5 @@ export async function POST(req: Request) {
   const imageId = await req.json() as number;
 
   await deleteImage(imageId);
-  return NextResponse.json({ data: "Testing Sentry Error..." });
+  return NextResponse.json({ data: "Success" });
 }

@@ -9,9 +9,9 @@ export default async function FullPageImageView(props: { id: number }) {
 
   return (
     <div className="flex h-full w-full min-w-0 items-center justify-center pt-24">
-      <div className="flex justify-items-start">
-        <img src={image.url} alt={image.name} className="object-contain" />
-        <div className="relative rounded-r-lg p-2 pl-4 text-left text-white">
+      <div className="flex justify-items-start max-w-screen-xl">
+        <img src={image.url} alt={image.name} className="object-contain max-h-[700px] max-w-full" />
+        <div className="relative rounded-r-lg p-2 pl-4 text-left text-white w-1/3">
           <div className="absolute inset-0 rounded-r-lg bg-zinc-700 opacity-75"></div>
           <div className="relative z-10 text-lg">{image.name}</div>
           <div className="relative z-10">

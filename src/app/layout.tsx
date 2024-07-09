@@ -28,7 +28,7 @@ export default function RootLayout({
         <html lang="en">
           <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           <body className={`dark flex flex-col gap-4`}>
-            <div className="h-screen grid-rows-[auto,1fr]">
+            <div className=" grid-rows-[auto,1fr]">
               <TopNav />
               <main className="overflow-y-auto"> {children} </main>
             </div>
