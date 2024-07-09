@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { getMyImages } from "~/server/queries";
 import Image from "next/image";
@@ -29,11 +30,13 @@ async function Images() {
 }
 
 export default async function HomePage() {
+  const t = useTranslations();
+
   return (
     <main>
       <SignedOut>
         <div className="h-full w-full text-center text-2xl">
-          Please sign in above
+          {t("hello")}
         </div>
       </SignedOut>
       <SignedIn>
