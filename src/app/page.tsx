@@ -2,6 +2,7 @@ import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { getMyImages } from "~/server/queries";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export const dynamic = "force-dynamic";
 
@@ -29,12 +30,11 @@ async function Images() {
 }
 
 export default async function HomePage() {
+  const t = useTranslations("HomePage");
   return (
     <main>
       <SignedOut>
-        <div className="h-full w-full text-center text-2xl">
-          Please sign in above
-        </div>
+        <div className="h-full w-full text-center text-2xl">{t("title")}</div>
       </SignedOut>
       <SignedIn>
         <Images />
