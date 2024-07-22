@@ -26,12 +26,12 @@ export default function RootLayout({
   params: { locale: string };
 }) {
   return (
+            <LocaleLayout params={{ locale: params.locale }}>
     <ClerkProvider>
       <CSPostHogProvider>
         <html lang={params.locale}>
-          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           <body className={`dark flex flex-col gap-4`}>
-            <LocaleLayout params={{ locale: params.locale }}>
+          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
               <div className="grid-rows-[auto,1fr]">
                 <TopNav />
                 <main className="overflow-y-auto">{children}</main>
@@ -39,10 +39,10 @@ export default function RootLayout({
               {modal}
               <div id="modal-root" />
               <Toaster />
-            </LocaleLayout>
           </body>
         </html>
       </CSPostHogProvider>
     </ClerkProvider>
+            </LocaleLayout>
   );
 }
