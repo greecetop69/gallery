@@ -1,33 +1,23 @@
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import { getMyImages } from "~/server/queries";
+import { IImage, getMyImages } from "~/server/queries";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
+import FullPageImageView from "./components/FullPageImageView";
+import { AllImages } from "./components/AllImages";
 
 export const dynamic = "force-dynamic";
 
-async function Images() {
-  const images = await getMyImages();
+// async function Images() {
+//   const images= await getMyImages() as IImage[];
 
-  return (
-    <div className="flex flex-wrap justify-center gap-4 p-4">
-      {images.map((image) => (
-        <div key={image.id} className="flex w-48 flex-col">
-          <Link href={`/img/${image.id}`}>
-            <Image
-              src={image.url}
-              style={{ objectFit: "contain" }}
-              width={192}
-              height={192}
-              alt={image.name}
-            />
-          </Link>
-          <div>{image.name}</div>
-        </div>
-      ))}
-    </div>
-  );
-}
+//   return (
+//     <div className="flex flex-wrap justify-center gap-4 p-4">
+     
+//     </div>
+//   );
+// }
 
 export default async function HomePage() {
   const t = useTranslations("HomePage");
@@ -37,7 +27,7 @@ export default async function HomePage() {
         <div className="h-full w-full text-center text-2xl">{t("title")}</div>
       </SignedOut>
       <SignedIn>
-        <Images />
+        {/* <Images /> */}
       </SignedIn>
     </main>
   );

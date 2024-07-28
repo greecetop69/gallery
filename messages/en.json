@@ -1,6 +1,8 @@
 {
   "HomePage": {
     "title": "Hello world!",
-    "test": "test"
+    "no_auth": "You are not logged in",
+    "uploaded_by": "Uploaded by",
+    "created_on": "Created on"
   }
 }

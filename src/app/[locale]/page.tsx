@@ -1,26 +1,35 @@
-import Image from "next/image";
-import Link from "next/link";
-import { getMyImages } from "~/server/queries";
+import { type IImage, getMyImages } from "~/server/queries";
+import { AllImages } from "../components/AllImages";
+import { auth } from "@clerk/nextjs/server";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { useTranslations } from "next-intl";
 
-export default async function HomePage() {
-  const images = await getMyImages();
+type User = {
+  userId: string;
+};
+
+export default async function HomePageWrapper() {
+  const images = (await getMyImages()) as IImage[];
+  const { userId, ...user } = auth() as User;
+
+  return <HomePage images={images} user={{ userId, ...user }} />;
+}
+
+function HomePage({ images, user }: { images: IImage[]; user: User }) {
+  const t = useTranslations("HomePage");
+
+  if (!user.userId) {
+    return <span>{t("no_auth")}</span>;
+  }
 
   return (
     <div className="flex flex-wrap justify-center gap-4 p-4">
-      {images.map((image) => (
-        <div key={image.id} className="flex w-48 flex-col">
-          <Link href={`/img/${image.id}`}>
-            <Image
-              src={image.url}
-              style={{ objectFit: "contain" }}
-              width={192}
-              height={192}
-              alt={image.name}
-            />
-          </Link>
-          <div>{image.name}</div>
-        </div>
-      ))}
+      <SignedOut>
+        <div className="h-full w-full text-center text-2xl">{t("title")}</div>
+      </SignedOut>
+      <SignedIn>
+        <AllImages images={images} />
+      </SignedIn>
     </div>
-  )
+  );
 }
