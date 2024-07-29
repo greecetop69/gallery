@@ -1,5 +1,5 @@
-import { withSentryConfig } from '@sentry/nextjs';
-import createNextIntlPlugin from 'next-intl/plugin';
+import { withSentryConfig } from "@sentry/nextjs";
+import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin();
 
@@ -7,13 +7,13 @@ const withNextIntl = createNextIntlPlugin();
 // /** @type {import("next").NextConfig} */
 const coreConfig = {
   images: {
-    remotePatterns: [{ hostname: "utfs.io" }]
+    remotePatterns: [{ hostname: "utfs.io" }],
   },
   eslint: {
-    ignoreDuringBuilds: true
+    ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: true
+    ignoreBuildErrors: true,
   },
   async rewrites() {
     return [
@@ -26,7 +26,7 @@ const coreConfig = {
         destination: "https://us.i.posthog.com/:path*",
       },
     ];
-  }
+  },
 };
 
 const config = withSentryConfig(coreConfig, {
