@@ -94,6 +94,10 @@ export function SimpleUploadButton() {
       toast("Upload complete!");
       router.refresh();
     },
+    onUploadError(e) {
+      toast.error('Upload Error!');
+      console.log(e);
+    }
   });
 
   return (

@@ -8,6 +8,7 @@ import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
 import { Toaster } from "~/components/ui/sonner";
 import { CSPostHogProvider } from "./_analytics/provider";
+import LocaleLayout from "./[locale]/layout";
 
 export const metadata = {
   title: "Create T3 Gallery",
@@ -17,27 +18,30 @@ export const metadata = {
 
 export default function RootLayout({
   children,
-  modal,
+  params,
 }: {
   children: React.ReactNode;
-  modal: React.ReactNode;
+  params: { locale: string };
 }) {
+
   return (
-    <ClerkProvider>
-      <CSPostHogProvider>
-        <html lang="en">
-          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-          <body className={`dark flex flex-col gap-4`}>
-            <div className=" grid-rows-[auto,1fr]">
-              <TopNav />
-              <main className="overflow-y-auto"> {children} </main>
-            </div>
-            {modal}
-            <div id="modal-root" />
-            <Toaster />
-          </body>
-        </html>
-      </CSPostHogProvider>
-    </ClerkProvider>
+    <LocaleLayout params={{ locale: params.locale }}>
+      <ClerkProvider>
+        <CSPostHogProvider>
+          <html lang={params.locale}>
+            <body className={`dark flex flex-col gap-4`}>
+              <NextSSRPlugin
+                routerConfig={extractRouterConfig(ourFileRouter)}
+              />
+              <div className="grid-rows-[auto,1fr]">
+                <TopNav />
+                <main className="overflow-y-auto">{children}</main>
+              </div>
+              <Toaster />
+            </body>
+          </html>
+        </CSPostHogProvider>
+      </ClerkProvider>
+    </LocaleLayout>
   );
 }

@@ -1,0 +1,9 @@
+{
+  "HomePage": {
+    "no_auth": "You are not logged in",
+    "uploaded_by": "Uploaded by",
+    "created_on": "Created on",
+    "view_in_full": "View in full",
+    "delete": "Delete"
+  }
+}

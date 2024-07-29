@@ -1,21 +1,31 @@
 import 'server-only'
 import { db } from './db';
 import { auth } from '@clerk/nextjs/server';
-import { UploadThingError } from 'uploadthing/server';
 import { redirect } from 'next/navigation';
 import { images } from './db/schema';
 import { and, eq } from 'drizzle-orm';
 
+export interface IImage {
+    id: number;
+    name: string;
+    url: string;
+    userId: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 export async function getMyImages() {
+    const user = auth();
 
-    const user = auth()
-    if (!user.userId) throw new UploadThingError("Unauthorized");
-
+    if (!user.userId) {
+        return [];
+    }
 
     const images = await db.query.images.findMany({
         where: (model, { eq }) => eq(model.userId, user.userId),
         orderBy: (model, { asc }) => asc(model.id),
     });
+
     return images;
 }
 
