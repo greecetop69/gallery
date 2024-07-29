@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import type { IImage } from "~/server/queries";
 import FormDelete from "./FormDelete";
-import Link from "next/link";
 import { clerkClient } from "@clerk/nextjs/server";
 import { useTranslations } from "next-intl";
 
@@ -10,7 +9,13 @@ type User = {
   username: string;
 };
 
-export default function FullPageImageView({ image }: { image: IImage }) {
+export default function FullPageImageView({
+  image,
+  closeDialog,
+}: {
+  image: IImage;
+  closeDialog?: () => void;
+}) {
   const [uploaderInfo, setUploaderInfo] = useState<User | null>(null);
   const t = useTranslations("HomePage");
 
@@ -27,23 +32,17 @@ export default function FullPageImageView({ image }: { image: IImage }) {
     void fetchUploaderInfo();
   }, [image.userId]);
 
-  console.log("CLERK_SECRET_KEY", process.env.CLERK_SECRET_KEY);
-  console.log(
-    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
-    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-  );
-
   return (
-    <div className="flex h-full w-full min-w-0 items-center justify-center pt-24">
-      <div className="flex max-w-screen-xl justify-items-start">
+    <div className="flex h-full w-full min-w-0 items-center justify-center pt-16">
+      <div className="flex max-w-screen-xl">
         <img
           src={image.url}
           alt={image.name}
-          className="max-h-[700px] max-w-full object-contain"
+          className="max-h-[80vh] max-w-[70vw] object-contain"
         />
-        <div className="relative w-1/3 rounded-r-lg p-2 pl-4 text-left text-white">
+        <div className="relative w-1/4 rounded-r-lg p-2 pl-4 text-left text-white">
           <div className="absolute inset-0 rounded-r-lg bg-zinc-700 opacity-75"></div>
-          <div className="relative z-10 text-lg">{image.name}</div>
+          <div className="relative z-10 break-words text-lg">{image.name}</div>
           <div className="relative z-10">
             {t("created_on")}: {new Date(image.createdAt).toLocaleDateString()}
           </div>
@@ -52,10 +51,10 @@ export default function FullPageImageView({ image }: { image: IImage }) {
             {uploaderInfo ? uploaderInfo.username : "Loading..."}
           </div>
           <div className="relative z-20 mt-4">
-            <FormDelete imageId={image.id} />
-          </div>
-          <div className="relative z-20 mt-4">
-            <Link href={`/img/${image.id}`}>фулл вью</Link>
+            <FormDelete
+              imageId={image.id}
+              closeDialog={closeDialog ?? (() => {})}
+            />
           </div>
         </div>
       </div>

@@ -8,6 +8,8 @@ type User = {
   userId: string;
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePageWrapper() {
   const images = (await getMyImages()) as IImage[];
   const { userId, ...user } = auth() as User;
@@ -19,7 +21,11 @@ function HomePage({ images, user }: { images: IImage[]; user: User }) {
   const t = useTranslations("HomePage");
 
   if (!user.userId) {
-    return <span>{t("no_auth")}</span>;
+    return (
+      <div className="flex items-center justify-center">
+        <span className="text-2xl text-bold ">{t("no_auth")}</span>
+      </div>
+    );
   }
 
   return (

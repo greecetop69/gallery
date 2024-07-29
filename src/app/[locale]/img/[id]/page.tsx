@@ -1,6 +1,6 @@
 import FullPageImageView from "~/app/components/FullPageImageView";
 
-import { getImage, type IImage} from "~/server/queries";
+import { getImage, type IImage } from "~/server/queries";
 
 export default async function PhotoPage({
   params: { id: photoId },
@@ -14,7 +14,7 @@ export default async function PhotoPage({
   const image = (await getImage(idAsNumber)) as IImage;
 
   return (
-    <div className="h-full">
+    <div className="m-0 flex h-full items-center justify-center">
       <FullPageImageView image={image} />
     </div>
   );
