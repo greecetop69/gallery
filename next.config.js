@@ -26,7 +26,7 @@ const coreConfig = {
         destination: "https://us.i.posthog.com/:path*",
       },
     ];
-  },
+  }
 };
 
 const config = withSentryConfig(coreConfig, {
