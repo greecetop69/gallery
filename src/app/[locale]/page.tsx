@@ -1,8 +1,6 @@
 import { type IImage, getMyImages } from "~/server/queries";
-import { AllImages } from "../components/AllImages";
 import { auth } from "@clerk/nextjs/server";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
-import { useTranslations } from "next-intl";
+import { HomePageClient } from "../components/HomePageClient";
 
 type User = {
   userId: string;
@@ -10,32 +8,13 @@ type User = {
 
 export const dynamic = "force-dynamic";
 
-export default async function HomePageWrapper() {
+export default async function Page() {
   const images = (await getMyImages()) as IImage[];
-  const { userId, ...user } = auth() as User;
 
-  return <HomePage images={images} user={{ userId, ...user }} />;
-}
+  const authData = auth();
+  const userId = authData.userId ?? "";
 
-function HomePage({ images, user }: { images: IImage[]; user: User }) {
-  const t = useTranslations("HomePage");
+  const user: User = { userId };
 
-  if (!user.userId) {
-    return (
-      <div className="flex items-center justify-center">
-        <span className="text-2xl text-bold ">{t("no_auth")}</span>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex flex-wrap justify-center gap-4 p-4">
-      <SignedOut>
-        <div className="h-full w-full text-center text-2xl">{t("title")}</div>
-      </SignedOut>
-      <SignedIn>
-        <AllImages images={images} />
-      </SignedIn>
-    </div>
-  );
+  return <HomePageClient images={images} user={user} />;
 }
