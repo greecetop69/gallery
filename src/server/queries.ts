@@ -50,6 +50,22 @@ export async function deleteImage(id: number) {
     await db
         .delete(images)
         .where(and(eq(images.id, id), eq(images.userId, user.userId)));
+}
 
+export async function searchImagesByName(query: string) {
+    const user = auth();
 
+    if (!user.userId) {
+        throw new Error("Unauthorized");
+    }
+
+    const images = await db.query.images.findMany({
+        where: (model, { and, like }) => and(
+            eq(model.userId, user.userId),
+            like(model.name, `%${query}%`)
+        ),
+        orderBy: (model, { asc }) => asc(model.id),
+    });
+
+    return images;
 }

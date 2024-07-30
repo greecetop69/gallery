@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { useLocale } from "next-intl";
-import { useRouter } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -10,17 +9,14 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import "~/styles/globals.css";
+import useChangeLocale from "../helpers/changeLangParam";
 
 const LangSelect = () => {
   const locale = useLocale();
-  const router = useRouter();
-
-  const changeLocale = (lang: string) => {
-    router.replace(`/${lang}`);
-  };
+  const onChangeLocale = useChangeLocale();
 
   return (
-    <Select defaultValue={locale} onValueChange={changeLocale}>
+    <Select defaultValue={locale} onValueChange={onChangeLocale}>
       <SelectTrigger className="!w-[70px]">
         <SelectValue />
       </SelectTrigger>
