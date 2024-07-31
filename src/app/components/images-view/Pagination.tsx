@@ -1,5 +1,5 @@
 "use client";
-import { FC } from "react";
+import type { FC } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import {
@@ -10,19 +10,16 @@ import {
 
 interface PaginationProps {
   pageCount: number;
-  onPageChange: (page: number) => void;
 }
 
 interface PaginationArrowProps {
   direction: "left" | "right";
-  href: string;
   isDisabled: boolean;
   onClick: () => void;
 }
 
 const PaginationArrow: FC<PaginationArrowProps> = ({
   direction,
-  href,
   isDisabled,
   onClick,
 }) => {
@@ -41,12 +38,10 @@ const PaginationArrow: FC<PaginationArrowProps> = ({
   );
 };
 
-export function PaginationComponent({
-  pageCount,
-  onPageChange,
-}: PaginationProps) {
+export function PaginationComponent({ pageCount }: PaginationProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const currentPage = Number(searchParams.get("page")) || 1;
 
   const createPageURL = (pageNumber: number | string) => {
@@ -55,15 +50,19 @@ export function PaginationComponent({
     return `${pathname}?${params.toString()}`;
   };
 
+  const handlePageChange = (newPage: number) => {
+    router.push(createPageURL(newPage));
+  };
+
   const handleLeftClick = () => {
     if (currentPage > 1) {
-      onPageChange(currentPage - 1);
+      handlePageChange(currentPage - 1);
     }
   };
 
   const handleRightClick = () => {
     if (currentPage < pageCount) {
-      onPageChange(currentPage + 1);
+      handlePageChange(currentPage + 1);
     }
   };
 
@@ -73,7 +72,6 @@ export function PaginationComponent({
         <PaginationItem>
           <PaginationArrow
             direction="left"
-            href={createPageURL(currentPage - 1)}
             isDisabled={currentPage <= 1}
             onClick={handleLeftClick}
           />
@@ -86,7 +84,6 @@ export function PaginationComponent({
         <PaginationItem>
           <PaginationArrow
             direction="right"
-            href={createPageURL(currentPage + 1)}
             isDisabled={currentPage >= pageCount}
             onClick={handleRightClick}
           />

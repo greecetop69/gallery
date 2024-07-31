@@ -1,6 +1,6 @@
-import { type IImage, getMyImages } from "~/server/queries";
+import { getMyImages } from "~/server/queries";
 import { auth } from "@clerk/nextjs/server";
-import { HomePageClient } from "../components/HomePageClient";
+import { HomePageClient } from "../components/images-view/HomePageClient";
 
 type User = {
   userId: string;
@@ -17,7 +17,7 @@ interface PageProps {
 
 export default async function Page({ searchParams }: PageProps) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
-  const pageSize = searchParams.pageSize ? parseInt(searchParams.pageSize) : 10;
+  const pageSize = searchParams.pageSize ? parseInt(searchParams.pageSize) : 11;
 
   const { images, total } = await getMyImages(page, pageSize);
   const pageCount = Math.ceil(total / pageSize);

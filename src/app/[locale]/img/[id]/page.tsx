@@ -1,4 +1,4 @@
-import FullPageImageView from "~/app/components/FullPageImageView";
+import FullPageImageView from "~/app/components/images-view/FullPageImageView";
 
 import { getImage, type IImage } from "~/server/queries";
 

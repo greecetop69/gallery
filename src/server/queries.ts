@@ -14,7 +14,7 @@ export interface IImage {
     updatedAt: Date | null;
 }
 
-export async function getMyImages(page = 1, pageSize = 10): Promise<{ images: IImage[], total: number }> {
+export async function getMyImages(page = 1, pageSize = 11): Promise<{ images: IImage[], total: number }> {
     const user = auth();
 
     if (!user.userId) {

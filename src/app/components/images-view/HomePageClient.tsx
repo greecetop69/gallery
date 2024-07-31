@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import { AllImages } from "../components/AllImages";
+import { AllImages } from "./AllImages";
 import type { IImage } from "~/server/queries";
 
 type User = {

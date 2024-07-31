@@ -3,7 +3,7 @@ import { useUploadThing } from "~/utils/uploadthing";
 import { toast } from "sonner";
 import { usePostHog } from "posthog-js/react";
 import { UploadDropzone } from "@uploadthing/react";
-import type { OurFileRouter } from "../app/api/uploadthing/core";
+import type { OurFileRouter } from "../../api/uploadthing/core";
 import { useCallback } from "react";
 import { LoadingSpinnerIcon } from "~/app/icons/LoadingSpinnerIcon";
 
