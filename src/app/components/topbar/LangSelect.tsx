@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import "~/styles/globals.css";
-import useChangeLocale from "../helpers/changeLangParam";
+import useChangeLocale from "../../helpers/changeLangParam";
 
 const LangSelect = () => {
   const locale = useLocale();

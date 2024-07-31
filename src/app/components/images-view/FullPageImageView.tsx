@@ -32,6 +32,11 @@ export default function FullPageImageView({
     void fetchUploaderInfo();
   }, [image.userId]);
 
+  const createdAtDate = image.createdAt ? new Date(image.createdAt) : null;
+  const createdAtString = createdAtDate
+    ? createdAtDate.toLocaleDateString()
+    : "N/A";
+
   return (
     <div className="flex h-full w-full min-w-0 items-center justify-center pt-16">
       <div className="flex max-w-screen-xl">
@@ -44,10 +49,10 @@ export default function FullPageImageView({
           <div className="absolute inset-0 rounded-r-lg bg-zinc-700 opacity-75"></div>
           <div className="relative z-10 break-words text-lg">{image.name}</div>
           <div className="relative z-10">
-            {t("created_on")}: {new Date(image.createdAt).toLocaleDateString()}
+            {t("created_on")}: {createdAtString}
           </div>
           <div className="relative z-10">
-            {t("uploaded_by")}: 
+            {t("uploaded_by")}:
             {uploaderInfo ? uploaderInfo.username : "Loading..."}
           </div>
           <div className="relative z-20 mt-4">

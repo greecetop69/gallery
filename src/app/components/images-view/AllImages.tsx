@@ -1,19 +1,20 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import type { IImage } from "~/server/queries";
 import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
 import ModalContent from "./ModalContent";
 import { useTranslations } from "next-intl";
-import { SimpleUploadDragAndDrop } from "~/_components/UploadDropzone";
+import { SimpleUploadDragAndDrop } from "~/app/components/upload/UploadDropzone";
+import { PaginationComponent } from "./Pagination";
 
 type AllImagesProps = {
   images: IImage[];
   query: string;
+  pageCount: number;
 };
 
-export function AllImages({ images, query }: AllImagesProps) {
+export function AllImages({ images, query, pageCount }: AllImagesProps) {
   const [filteredImages, setFilteredImages] = useState<IImage[]>(images);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<IImage | null>(null);
@@ -39,7 +40,7 @@ export function AllImages({ images, query }: AllImagesProps) {
 
   return (
     <div>
-      <div className="flex flex-wrap justify-center gap-4 p-4">
+      <div className="grid grid-cols-6 gap-4 p-4">
         {filteredImages.length > 0 ? (
           filteredImages.map((image) => (
             <Dialog
@@ -81,6 +82,7 @@ export function AllImages({ images, query }: AllImagesProps) {
         )}
         <SimpleUploadDragAndDrop />
       </div>
+      <PaginationComponent pageCount={pageCount} />
     </div>
   );
 }

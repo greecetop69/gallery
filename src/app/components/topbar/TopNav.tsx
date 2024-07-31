@@ -9,11 +9,10 @@ import {
 } from "@clerk/nextjs";
 // import { SimpleUploadButton } from "./simpleUploadButton";
 import Link from "next/link";
-import { Logo } from "~/app/components/Logo";
-import LangSelect from "~/app/components/LangSelect";
-import Search from "~/app/components/Search";
+import { Logo } from "~/app/icons/Logo";
+import LangSelect from "~/app/components/topbar/LangSelect";
+import Search from "~/app/components/topbar/Search";
 import { usePathname } from "next/navigation";
-// import { SimpleUploadDragAndDrop } from "./UploadDropzone";
 
 export function TopNav() {
   const pathname = usePathname();
@@ -43,7 +42,6 @@ export function TopNav() {
         </SignedOut>
         <SignedIn>
           {/* <SimpleUploadButton /> */}
-          {/* <SimpleUploadDragAndDrop /> */}
           <LangSelect />
           <UserButton />
         </SignedIn>

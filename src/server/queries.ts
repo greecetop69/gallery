@@ -1,33 +1,42 @@
-import 'server-only'
+import 'server-only';
 import { db } from './db';
 import { auth } from '@clerk/nextjs/server';
+import { images } from './db/schema'
+import { eq, sql, and } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
-import { images } from './db/schema';
-import { and, eq } from 'drizzle-orm';
 
 export interface IImage {
     id: number;
     name: string;
     url: string;
     userId: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: Date | null;
+    updatedAt: Date | null;
 }
 
-export async function getMyImages() {
+export async function getMyImages(page = 1, pageSize = 11): Promise<{ images: IImage[], total: number }> {
     const user = auth();
 
     if (!user.userId) {
-        return [];
+        return { images: [], total: 0 };
     }
 
-    const images = await db.query.images.findMany({
-        where: (model, { eq }) => eq(model.userId, user.userId),
-        orderBy: (model, { asc }) => asc(model.id),
-    });
+    const offset = (page - 1) * pageSize;
 
-    return images;
+    const userImages = await db.select().from(images)
+        .where(eq(images.userId, user.userId))
+        .orderBy(images.id)
+        .offset(offset)
+        .limit(pageSize);
+
+    const total = await db.select({ count: sql`count(*)` })
+        .from(images)
+        .where(eq(images.userId, user.userId))
+        .then(result => result[0]?.count as number);
+
+    return { images: userImages, total };
 }
+
 
 export async function getImage(id: number) {
     const user = auth();
