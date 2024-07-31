@@ -7,17 +7,23 @@ import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
 import ModalContent from "./ModalContent";
 import { useTranslations } from "next-intl";
 import { SimpleUploadDragAndDrop } from "~/_components/UploadDropzone";
+import { useRouter, useSearchParams } from "next/navigation";
+import { PaginationComponent } from "./Pagination";
 
 type AllImagesProps = {
   images: IImage[];
   query: string;
+  pageCount: number;
 };
 
-export function AllImages({ images, query }: AllImagesProps) {
+export function AllImages({ images, query, pageCount }: AllImagesProps) {
   const [filteredImages, setFilteredImages] = useState<IImage[]>(images);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<IImage | null>(null);
   const t = useTranslations("HomePage");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
 
   useEffect(() => {
     if (query) {
@@ -35,6 +41,12 @@ export function AllImages({ images, query }: AllImagesProps) {
   const closeDialog = () => {
     setIsDialogOpen(false);
     setSelectedImage(null);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", newPage.toString());
+    router.push(`?${params.toString()}`);
   };
 
   return (
@@ -81,6 +93,10 @@ export function AllImages({ images, query }: AllImagesProps) {
         )}
         <SimpleUploadDragAndDrop />
       </div>
+      <PaginationComponent
+        pageCount={pageCount}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }
