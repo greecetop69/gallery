@@ -7,17 +7,18 @@ import {
   SignInButton,
   useAuth,
 } from "@clerk/nextjs";
-import { SimpleUploadButton } from "./simpleUploadButton";
+// import { SimpleUploadButton } from "./simpleUploadButton";
 import Link from "next/link";
 import { Logo } from "~/app/components/Logo";
 import LangSelect from "~/app/components/LangSelect";
 import Search from "~/app/components/Search";
 import { usePathname } from "next/navigation";
+// import { SimpleUploadDragAndDrop } from "./UploadDropzone";
 
 export function TopNav() {
   const pathname = usePathname();
   const isOnFullViewPage = pathname.includes(`/img/`);
-  const { isSignedIn } = useAuth(); // Use Clerk's useAuth hook
+  const { isSignedIn } = useAuth();
 
   return (
     <nav className="flex w-full items-center justify-between border-b p-3 text-xl font-semibold">
@@ -41,7 +42,8 @@ export function TopNav() {
           <SignInButton />
         </SignedOut>
         <SignedIn>
-          <SimpleUploadButton />
+          {/* <SimpleUploadButton /> */}
+          {/* <SimpleUploadDragAndDrop /> */}
           <LangSelect />
           <UserButton />
         </SignedIn>
