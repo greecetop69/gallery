@@ -5,6 +5,7 @@
     "created_on": "Created on",
     "view_in_full": "View in full",
     "delete": "Delete",
-    "search": "Search..."
+    "search": "Search...",
+    "no_images_found": "No images found"
   }
 }

@@ -5,6 +5,7 @@ import Image from "next/image";
 import type { IImage } from "~/server/queries";
 import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
 import ModalContent from "./ModalContent";
+import { useTranslations } from "next-intl";
 
 type AllImagesProps = {
   images: IImage[];
@@ -15,6 +16,7 @@ export function AllImages({ images, query }: AllImagesProps) {
   const [filteredImages, setFilteredImages] = useState<IImage[]>(images);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<IImage | null>(null);
+  const t = useTranslations("HomePage");
 
   useEffect(() => {
     if (query) {
@@ -57,7 +59,7 @@ export function AllImages({ images, query }: AllImagesProps) {
                   layout="fill"
                   alt={image.name}
                 />
-                <div className="absolute bottom-0 w-full bg-black bg-opacity-50 text-center text-white">
+                <div className="absolute bottom-0 w-full bg-black/80 bg-opacity-50 text-center text-white">
                   {image.name}
                 </div>
               </DialogTrigger>
@@ -74,7 +76,7 @@ export function AllImages({ images, query }: AllImagesProps) {
             </Dialog>
           ))
         ) : (
-          <div>No images found</div>
+          <div>{t("no_images_found")}</div>
         )}
       </div>
     </div>

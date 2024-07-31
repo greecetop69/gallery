@@ -47,7 +47,7 @@ export default function FullPageImageView({
             {t("created_on")}: {new Date(image.createdAt).toLocaleDateString()}
           </div>
           <div className="relative z-10">
-            {t("uploaded_by")}:{" "}
+            {t("uploaded_by")}: 
             {uploaderInfo ? uploaderInfo.username : "Loading..."}
           </div>
           <div className="relative z-20 mt-4">
