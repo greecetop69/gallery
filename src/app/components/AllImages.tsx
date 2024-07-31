@@ -6,6 +6,7 @@ import type { IImage } from "~/server/queries";
 import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
 import ModalContent from "./ModalContent";
 import { useTranslations } from "next-intl";
+import { SimpleUploadDragAndDrop } from "~/_components/UploadDropzone";
 
 type AllImagesProps = {
   images: IImage[];
@@ -78,6 +79,7 @@ export function AllImages({ images, query }: AllImagesProps) {
         ) : (
           <div>{t("no_images_found")}</div>
         )}
+        <SimpleUploadDragAndDrop />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "~/components/ui/input";
-import { SearchIcon } from "./SearchIcon";
+import { SearchIcon } from "../icons/SearchIcon";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { useState } from "react";
