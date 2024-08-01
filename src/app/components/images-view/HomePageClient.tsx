@@ -21,7 +21,7 @@ export function HomePageClient({
   user,
   pageCount,
 }: HomePageClientProps) {
-  const t = useTranslations("HomePage");
+  const t = useTranslations("MainPage");
   const searchParams = useSearchParams();
   const query = searchParams.get("query") ?? "";
 

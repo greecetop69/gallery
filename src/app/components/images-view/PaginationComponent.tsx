@@ -1,5 +1,5 @@
 "use client";
-import type { FC } from "react";
+import { type FC } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import {
@@ -7,6 +7,9 @@ import {
   PaginationContent,
   PaginationItem,
 } from "~/components/ui/pagination";
+import { useTranslations } from "next-intl";
+import { PreviousIcon } from "~/app/icons/PreviousIcon";
+import { NextIcon } from "~/app/icons/NextIcon";
 
 interface PaginationProps {
   pageCount: number;
@@ -29,11 +32,11 @@ const PaginationArrow: FC<PaginationArrowProps> = ({
   return (
     <Button
       onClick={onClick}
-      className={`bg-gray-100 text-gray-500 hover:bg-gray-200 ${disabledClassName}`}
+      className={`bg-gray-100 text-gray-500 hover:bg-gray-200 ${disabledClassName} !p-2`}
       aria-disabled={isDisabled}
       disabled={isDisabled}
     >
-      {isLeft ? "«" : "»"}
+      {isLeft ? <PreviousIcon width={24} height={24}/> : <NextIcon width={24} height={24}/>}
     </Button>
   );
 };
@@ -43,7 +46,8 @@ export function PaginationComponent({ pageCount }: PaginationProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const currentPage = Number(searchParams.get("page")) || 1;
-
+  const t = useTranslations("MainPage");
+  
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", pageNumber.toString());
@@ -78,7 +82,7 @@ export function PaginationComponent({ pageCount }: PaginationProps) {
         </PaginationItem>
         <PaginationItem>
           <span className="p-2 font-semibold text-gray-500">
-            Page {currentPage}
+            {t("page")} {currentPage}
           </span>
         </PaginationItem>
         <PaginationItem>

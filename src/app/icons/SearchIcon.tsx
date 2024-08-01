@@ -1,6 +1,43 @@
-import React from 'react';
-import type { SVGProps } from 'react';
+import React from "react";
+import type { SVGProps } from "react";
 
 export function SearchIcon(props: SVGProps<SVGSVGElement>) {
-	return (<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" {...props}><path fill="currentColor" d="m19.6 21l-6.3-6.3q-.75.6-1.725.95T9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l6.3 6.3zM9.5 14q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14"></path></svg>);
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth={2}
+      >
+        <path strokeDasharray={16} strokeDashoffset={16} d="M10.5 13.5L3 21">
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            begin="0.4s"
+            dur="0.2s"
+            values="16;0"
+          ></animate>
+        </path>
+        <path
+          strokeDasharray={40}
+          strokeDashoffset={40}
+          d="M10.7574 13.2426C8.41421 10.8995 8.41421 7.10051 10.7574 4.75736C13.1005 2.41421 16.8995 2.41421 19.2426 4.75736C21.5858 7.10051 21.5858 10.8995 19.2426 13.2426C16.8995 15.5858 13.1005 15.5858 10.7574 13.2426Z"
+        >
+          <animate
+            fill="freeze"
+            attributeName="stroke-dashoffset"
+            dur="0.4s"
+            values="40;0"
+          ></animate>
+        </path>
+      </g>
+    </svg>
+  );
 }

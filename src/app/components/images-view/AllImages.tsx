@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
 import ModalContent from "./ModalContent";
 import { useTranslations } from "next-intl";
 import { SimpleUploadDragAndDrop } from "~/app/components/upload/UploadDropzone";
-import { PaginationComponent } from "./Pagination";
+import { PaginationComponent } from "./PaginationComponent";
 
 type AllImagesProps = {
   images: IImage[];
@@ -18,7 +18,7 @@ export function AllImages({ images, query, pageCount }: AllImagesProps) {
   const [filteredImages, setFilteredImages] = useState<IImage[]>(images);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<IImage | null>(null);
-  const t = useTranslations("HomePage");
+  const t = useTranslations("MainPage");
 
   useEffect(() => {
     if (query) {
@@ -39,8 +39,8 @@ export function AllImages({ images, query, pageCount }: AllImagesProps) {
   };
 
   return (
-    <div>
-      <div className="grid grid-cols-6 gap-4 p-4">
+    <div className="container mx-auto">
+      <div className="flex flex-wrap gap-4 p-4">
         {filteredImages.length > 0 ? (
           filteredImages.map((image) => (
             <Dialog
@@ -58,7 +58,7 @@ export function AllImages({ images, query, pageCount }: AllImagesProps) {
                 <Image
                   src={image.url}
                   style={{ objectFit: "cover" }}
-                  layout="fill"
+                  fill
                   alt={image.name}
                 />
                 <div className="absolute bottom-0 w-full bg-black/80 bg-opacity-50 text-center text-white">
