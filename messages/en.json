@@ -1,11 +1,12 @@
 {
-  "HomePage": {
+  "MainPage": {
     "no_auth": "You are not logged in",
     "uploaded_by": "Uploaded by",
     "created_on": "Created on",
     "view_in_full": "View in full",
     "delete": "Delete",
     "search": "Search...",
-    "no_images_found": "No images found"
+    "no_images_found": "No images found",
+    "page": "Page"
   }
 }

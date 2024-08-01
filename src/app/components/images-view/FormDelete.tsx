@@ -11,7 +11,7 @@ const FormDelete = ({
   imageId: number;
   closeDialog: () => void;
 }) => {
-  const t = useTranslations("HomePage");
+  const t = useTranslations("MainPage");
   const router = useRouter();
 
   const onSubmit = async () => {

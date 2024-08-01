@@ -17,7 +17,7 @@ export default function FullPageImageView({
   closeDialog?: () => void;
 }) {
   const [uploaderInfo, setUploaderInfo] = useState<User | null>(null);
-  const t = useTranslations("HomePage");
+  const t = useTranslations("MainPage");
 
   useEffect(() => {
     async function fetchUploaderInfo() {

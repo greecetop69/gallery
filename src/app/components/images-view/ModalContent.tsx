@@ -13,7 +13,7 @@ export default function ModalContent({
   image: IImage;
   closeDialog?: () => void;
 }) {
-  const t = useTranslations("HomePage");
+  const t = useTranslations("MainPage");
 
   const pathname = usePathname();
   const isOnFullViewPage = pathname.includes(`/img/${image.id}`);

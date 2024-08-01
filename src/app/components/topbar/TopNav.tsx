@@ -9,7 +9,7 @@ import {
 } from "@clerk/nextjs";
 // import { SimpleUploadButton } from "./simpleUploadButton";
 import Link from "next/link";
-import { Logo } from "~/app/icons/Logo";
+import { LogoIcon } from "~/app/icons/LogoIcon";
 import LangSelect from "~/app/components/topbar/LangSelect";
 import Search from "~/app/components/topbar/Search";
 import { usePathname } from "next/navigation";
@@ -26,7 +26,7 @@ export function TopNav() {
           <div className="flex h-[26px] items-center justify-center pb-1 text-center">
             Gallery
           </div>
-          <Logo />
+          <LogoIcon />
         </div>
       </Link>
 
