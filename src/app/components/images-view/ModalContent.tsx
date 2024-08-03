@@ -5,6 +5,8 @@ import FormDelete from "./FormDelete";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Button } from "~/components/ui/button";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export default function ModalContent({
   image,
@@ -14,9 +16,19 @@ export default function ModalContent({
   closeDialog?: () => void;
 }) {
   const t = useTranslations("MainPage");
-
+  const { theme } = useTheme();
   const pathname = usePathname();
   const isOnFullViewPage = pathname.includes(`/img/${image.id}`);
+
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  if (!hydrated) {
+    return null;
+  }
 
   return (
     <div className="mt-8 flex items-start justify-center gap-4">
@@ -27,7 +39,7 @@ export default function ModalContent({
           className="max-h-[70vh] max-w-full object-contain"
         />
       </div>
-      <div className="flex max-w-max flex-col items-start rounded-lg bg-white p-4 shadow-lg">
+      <div className={`flex max-w-max flex-col items-start rounded-lg ${theme === 'dark' ? 'bg-white' : 'bg-slate-300'} p-4 shadow-lg`}>
         <div className="text-lg text-gray-900">{image.name}</div>
         <div className="mt-3">
           <FormDelete
