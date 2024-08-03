@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import type { IImage } from "~/server/queries";
 import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
 import ModalContent from "./ModalContent";
@@ -39,8 +39,8 @@ export function AllImages({ images, query, pageCount }: AllImagesProps) {
   };
 
   return (
-    <div className="container mx-auto">
-      <div className="flex flex-wrap gap-4 p-4">
+    <div>
+      <div className="grid grid-cols-6 gap-4 p-4">
         {filteredImages.length > 0 ? (
           filteredImages.map((image) => (
             <Dialog
@@ -57,8 +57,8 @@ export function AllImages({ images, query, pageCount }: AllImagesProps) {
               >
                 <Image
                   src={image.url}
-                  style={{ objectFit: "cover" }}
-                  fill
+                  layout="fill"
+                  objectFit="cover"
                   alt={image.name}
                 />
                 <div className="absolute bottom-0 w-full bg-black/80 bg-opacity-50 text-center text-white">

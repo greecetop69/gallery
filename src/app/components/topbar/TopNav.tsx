@@ -13,6 +13,7 @@ import { LogoIcon } from "~/app/icons/LogoIcon";
 import LangSelect from "~/app/components/topbar/LangSelect";
 import Search from "~/app/components/topbar/Search";
 import { usePathname } from "next/navigation";
+import { ModeToggle } from "./ModeToggle";
 
 export function TopNav() {
   const pathname = usePathname();
@@ -41,6 +42,7 @@ export function TopNav() {
           <SignInButton />
         </SignedOut>
         <SignedIn>
+          <ModeToggle />
           {/* <SimpleUploadButton /> */}
           <LangSelect />
           <UserButton />
