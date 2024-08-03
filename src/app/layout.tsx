@@ -1,6 +1,4 @@
-import "~/styles/globals.css";
-import "@uploadthing/react/styles.css";
-
+import { ThemeProvider } from "next-themes";
 import { ClerkProvider } from "@clerk/nextjs";
 import { TopNav } from "~/app/components/topbar/TopNav";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
@@ -23,21 +21,25 @@ export default function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
-
   return (
     <LocaleLayout params={{ locale: params.locale }}>
       <ClerkProvider>
         <CSPostHogProvider>
-          <html lang={params.locale}>
-            <body className={`dark flex flex-col gap-4`}>
-              <NextSSRPlugin
-                routerConfig={extractRouterConfig(ourFileRouter)}
-              />
-              <div className="grid-rows-[auto,1fr]">
-                <TopNav />
-                <main className="overflow-y-auto">{children}</main>
-              </div>
-              <Toaster />
+          <html lang={params.locale} className="dark">
+            <body className="flex flex-col gap-4 bg-background text-foreground">
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+                <div className="grid-rows-[auto,1fr]">
+                  <TopNav />
+                  <main className="overflow-y-auto">{children}</main>
+                </div>
+                <Toaster />
+              </ThemeProvider>
             </body>
           </html>
         </CSPostHogProvider>
