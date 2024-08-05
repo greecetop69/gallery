@@ -1,5 +1,5 @@
 "use client";
-import { type FC } from "react";
+import { useEffect, type FC, useCallback } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import {
@@ -36,7 +36,11 @@ const PaginationArrow: FC<PaginationArrowProps> = ({
       aria-disabled={isDisabled}
       disabled={isDisabled}
     >
-      {isLeft ? <PreviousIcon width={24} height={24}/> : <NextIcon width={24} height={24}/>}
+      {isLeft ? (
+        <PreviousIcon width={24} height={24} />
+      ) : (
+        <NextIcon width={24} height={24} />
+      )}
     </Button>
   );
 };
@@ -47,16 +51,28 @@ export function PaginationComponent({ pageCount }: PaginationProps) {
   const router = useRouter();
   const currentPage = Number(searchParams.get("page")) || 1;
   const t = useTranslations("MainPage");
-  
-  const createPageURL = (pageNumber: number | string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", pageNumber.toString());
-    return `${pathname}?${params.toString()}`;
-  };
 
-  const handlePageChange = (newPage: number) => {
-    router.push(createPageURL(newPage));
-  };
+  const createPageURL = useCallback(
+    (pageNumber: number | string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set("page", pageNumber.toString());
+      return `${pathname}?${params.toString()}`;
+    },
+    [pathname, searchParams],
+  );
+
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      router.push(createPageURL(newPage));
+    },
+    [createPageURL, router],
+  );
+
+  useEffect(() => {
+    if (currentPage > pageCount) {
+      handlePageChange(pageCount);
+    }
+  }, [ pageCount, currentPage, handlePageChange]);
 
   const handleLeftClick = () => {
     if (currentPage > 1) {
@@ -71,28 +87,32 @@ export function PaginationComponent({ pageCount }: PaginationProps) {
   };
 
   return (
-    <Pagination>
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationArrow
-            direction="left"
-            isDisabled={currentPage <= 1}
-            onClick={handleLeftClick}
-          />
-        </PaginationItem>
-        <PaginationItem>
-          <span className="p-2 font-semibold text-gray-500">
-            {t("page")} {currentPage}
-          </span>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationArrow
-            direction="right"
-            isDisabled={currentPage >= pageCount}
-            onClick={handleRightClick}
-          />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+    <>
+      {pageCount > 1 && (
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationArrow
+                direction="left"
+                isDisabled={currentPage <= 1}
+                onClick={handleLeftClick}
+              />
+            </PaginationItem>
+            <PaginationItem>
+              <span className="p-2 font-semibold text-gray-500">
+                {t("page")} {currentPage}
+              </span>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationArrow
+                direction="right"
+                isDisabled={currentPage >= pageCount}
+                onClick={handleRightClick}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
+    </>
   );
 }

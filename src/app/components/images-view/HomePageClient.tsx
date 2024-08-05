@@ -14,12 +14,14 @@ interface HomePageClientProps {
   images: IImage[];
   user: User;
   pageCount: number;
+  total: number;
 }
 
 export function HomePageClient({
   images,
   user,
   pageCount,
+  total
 }: HomePageClientProps) {
   const t = useTranslations("MainPage");
   const searchParams = useSearchParams();
@@ -39,7 +41,12 @@ export function HomePageClient({
         <div className="h-full w-full text-center text-2xl">test</div>
       </SignedOut>
       <SignedIn>
-        <AllImages images={images} query={query} pageCount={pageCount} />
+        <AllImages
+          images={images}
+          query={query}
+          pageCount={pageCount}
+          total={total}
+        />
       </SignedIn>
     </div>
   );

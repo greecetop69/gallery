@@ -20,6 +20,7 @@ export default async function Page({ searchParams }: PageProps) {
   const pageSize = searchParams.pageSize ? parseInt(searchParams.pageSize) : 11;
 
   const { images, total } = await getMyImages(page, pageSize);
+  console.log("🚀 ~ Page ~ images:", total);
   const pageCount = Math.ceil(total / pageSize);
 
   const authData = auth();
@@ -28,7 +29,7 @@ export default async function Page({ searchParams }: PageProps) {
 
   return (
     <>
-      <HomePageClient images={images} user={user} pageCount={pageCount} />
+      <HomePageClient images={images} user={user} pageCount={pageCount} total={total} />
     </>
   );
 }

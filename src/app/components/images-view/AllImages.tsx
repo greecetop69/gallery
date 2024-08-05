@@ -12,10 +12,13 @@ type AllImagesProps = {
   images: IImage[];
   query: string;
   pageCount: number;
+  total: number;
 };
 
-export function AllImages({ images, query, pageCount }: AllImagesProps) {
+export function AllImages({ images, query, pageCount, total }: AllImagesProps) {
+  console.log("🚀 ~ AllImages ~ total:", total);
   const [filteredImages, setFilteredImages] = useState<IImage[]>(images);
+  console.log("🚀 ~ AllImages ~ filteredImages:", filteredImages);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<IImage | null>(null);
   const t = useTranslations("MainPage");
@@ -82,7 +85,9 @@ export function AllImages({ images, query, pageCount }: AllImagesProps) {
         )}
         <SimpleUploadDragAndDrop />
       </div>
-      <PaginationComponent pageCount={pageCount} />
+      {filteredImages.length > 0 && total > 11 && (
+        <PaginationComponent pageCount={pageCount} />
+      )}
     </div>
   );
 }
