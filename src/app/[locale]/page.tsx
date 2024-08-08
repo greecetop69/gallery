@@ -12,6 +12,7 @@ interface PageProps {
   searchParams: {
     page?: string;
     pageSize?: string;
+    total?: number;
   };
 }
 
@@ -28,7 +29,7 @@ export default async function Page({ searchParams }: PageProps) {
 
   return (
     <>
-      <HomePageClient images={images} user={user} pageCount={pageCount} />
+      <HomePageClient images={images} user={user} pageCount={pageCount} total={total} />
     </>
   );
 }

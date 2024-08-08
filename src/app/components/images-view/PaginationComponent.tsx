@@ -13,6 +13,7 @@ import { NextIcon } from "~/app/icons/NextIcon";
 
 interface PaginationProps {
   pageCount: number;
+  isDisabled: boolean;
 }
 
 interface PaginationArrowProps {
@@ -36,18 +37,25 @@ const PaginationArrow: FC<PaginationArrowProps> = ({
       aria-disabled={isDisabled}
       disabled={isDisabled}
     >
-      {isLeft ? <PreviousIcon width={24} height={24}/> : <NextIcon width={24} height={24}/>}
+      {isLeft ? (
+        <PreviousIcon width={24} height={24} />
+      ) : (
+        <NextIcon width={24} height={24} />
+      )}
     </Button>
   );
 };
 
-export function PaginationComponent({ pageCount }: PaginationProps) {
+export function PaginationComponent({
+  pageCount,
+  isDisabled,
+}: PaginationProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
   const currentPage = Number(searchParams.get("page")) || 1;
   const t = useTranslations("MainPage");
-  
+
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", pageNumber.toString());
@@ -59,13 +67,13 @@ export function PaginationComponent({ pageCount }: PaginationProps) {
   };
 
   const handleLeftClick = () => {
-    if (currentPage > 1) {
+    if (currentPage > 1 && !isDisabled) {
       handlePageChange(currentPage - 1);
     }
   };
 
   const handleRightClick = () => {
-    if (currentPage < pageCount) {
+    if (currentPage < pageCount && !isDisabled) {
       handlePageChange(currentPage + 1);
     }
   };
@@ -76,7 +84,7 @@ export function PaginationComponent({ pageCount }: PaginationProps) {
         <PaginationItem>
           <PaginationArrow
             direction="left"
-            isDisabled={currentPage <= 1}
+            isDisabled={currentPage <= 1 || isDisabled}
             onClick={handleLeftClick}
           />
         </PaginationItem>
@@ -88,7 +96,7 @@ export function PaginationComponent({ pageCount }: PaginationProps) {
         <PaginationItem>
           <PaginationArrow
             direction="right"
-            isDisabled={currentPage >= pageCount}
+            isDisabled={currentPage >= pageCount || isDisabled}
             onClick={handleRightClick}
           />
         </PaginationItem>

@@ -1,4 +1,3 @@
-"use client";
 import { useEffect, useState } from "react";
 import Image from "next/legacy/image";
 import type { IImage } from "~/server/queries";
@@ -7,18 +6,23 @@ import ModalContent from "./ModalContent";
 import { useTranslations } from "next-intl";
 import { SimpleUploadDragAndDrop } from "~/app/components/upload/UploadDropzone";
 import { PaginationComponent } from "./PaginationComponent";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type AllImagesProps = {
   images: IImage[];
   query: string;
   pageCount: number;
+  total: number;
 };
 
-export function AllImages({ images, query, pageCount }: AllImagesProps) {
+export function AllImages({ images, query, pageCount, total }: AllImagesProps) {
   const [filteredImages, setFilteredImages] = useState<IImage[]>(images);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<IImage | null>(null);
+  const router = useRouter();
   const t = useTranslations("MainPage");
+  const searchParams = useSearchParams();
+  const currentPage = parseInt(searchParams.get("page") ?? "1", 10);
 
   useEffect(() => {
     if (query) {
@@ -32,6 +36,15 @@ export function AllImages({ images, query, pageCount }: AllImagesProps) {
       setFilteredImages(images);
     }
   }, [query, images]);
+
+  useEffect(() => {
+    if (filteredImages.length === 0) {
+      router.back();
+    }
+  }, [filteredImages, router]);
+
+  const imagesPerPage = 11;
+  const isPaginationDisabled = total <= imagesPerPage * (currentPage - 1);
 
   const closeDialog = () => {
     setIsDialogOpen(false);
@@ -82,7 +95,10 @@ export function AllImages({ images, query, pageCount }: AllImagesProps) {
         )}
         <SimpleUploadDragAndDrop />
       </div>
-      <PaginationComponent pageCount={pageCount} />
+      <PaginationComponent
+        pageCount={pageCount}
+        isDisabled={isPaginationDisabled}
+      />
     </div>
   );
 }
