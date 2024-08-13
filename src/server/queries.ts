@@ -87,45 +87,65 @@ export async function searchImagesByName(query: string) {
     return images;
 }
 
-export async function createAlbum(name: string, userId: string): Promise<IAlbum[]> {
-    return await db.insert(albums).values({ name, userId }).returning() as IAlbum[];
-}
+// export async function createAlbum(name: string, userId: string): Promise<IAlbum[]> {
+//     return await db.insert(albums).values({ name, userId }).returning() as IAlbum[];
+// }
 
-export async function addImageToAlbum(imageId: number, albumId: number) {
-    return await db.update(images)
-        .set({ albumId })
-        .where(eq(images.id, imageId))
-        .returning();
-}
+// export async function addImageToAlbum(imageId: number, albumId: number) {
+//     return await db.update(images)
+//         .set({ albumId })
+//         .where(eq(images.id, imageId))
+//         .returning();
+// }
 
-export async function getImagesByAlbum(albumId: number, page = 1, pageSize = 11): Promise<{ images: IImage[], total: number }> {
-    const user = auth();
+// export async function getImagesByAlbum(albumId: number, page = 1, pageSize = 11): Promise<{ images: IImage[], total: number }> {
+//     const user = auth();
 
-    if (!user.userId) {
-        return { images: [], total: 0 };
-    }
+//     if (!user.userId) {
+//         return { images: [], total: 0 };
+//     }
 
-    const offset = (page - 1) * pageSize;
+//     const offset = (page - 1) * pageSize;
 
-    const albumImages = await db.select().from(images)
-        .where(and(eq(images.userId, user.userId), eq(images.albumId, albumId)))
-        .orderBy(images.id)
-        .offset(offset)
-        .limit(pageSize);
+//     const albumImages = await db.select().from(images)
+//         .where(and(eq(images.userId, user.userId), eq(images.albumId, albumId)))
+//         .orderBy(images.id)
+//         .offset(offset)
+//         .limit(pageSize);
 
-    const total = await db.select({ count: sql`count(*)` })
-        .from(images)
-        .where(and(eq(images.userId, user.userId), eq(images.albumId, albumId)))
-        .then(result => result[0]?.count as number);
+//     const total = await db.select({ count: sql`count(*)` })
+//         .from(images)
+//         .where(and(eq(images.userId, user.userId), eq(images.albumId, albumId)))
+//         .then(result => result[0]?.count as number);
 
-    return { images: albumImages, total };
-}
+//     return { images: albumImages, total };
+// }
 
-export async function getAlbums() {
-    try {
-      return await db.select().from(albums);
-    } catch (error) {
-      console.error("Ошибка при получении альбомов", error);
-      return [];
-    }
+// export async function getAlbums() {
+//     try {
+//       return await db.select().from(albums);
+//     } catch (error) {
+//       console.error("Ошибка при получении альбомов", error);
+//       return [];
+//     }
+//   }
+
+// async function getAllAlbums() {
+//     const allAlbums = await db.select().from(albums);
+//     return allAlbums;
+// }
+
+// async function getImagesByAlbum(albumId: number) {
+//     const albumImages = await db.select().from(images).where(images.albumId.eq(albumId));
+//     return albumImages;
+// }
+
+export async function getAlbumByName(name: string): Promise<IAlbum> {
+    const album = await db.query.albums.findFirst({
+      where: (model, { eq }) => eq(model.name, name),
+    });
+  
+    if (!album) throw new Error('Album not found');
+  
+    return album;
   }

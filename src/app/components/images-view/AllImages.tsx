@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { SimpleUploadDragAndDrop } from "~/app/components/upload/UploadDropzone";
 import { PaginationComponent } from "./PaginationComponent";
 import { useRouter, useSearchParams } from "next/navigation";
+import AlbumsPage1 from "../album/AlbumsPage";
 
 type AllImagesProps = {
   images: IImage[];
@@ -53,6 +54,8 @@ export function AllImages({ images, query, pageCount, total }: AllImagesProps) {
 
   return (
     <div>
+      <AlbumsPage1/>
+      
       <div className="grid grid-cols-6 gap-4 p-4">
         {filteredImages.length > 0 ? (
           filteredImages.map((image) => (
