@@ -9,11 +9,10 @@ export interface IImage {
     id: number;
     name: string;
     url: string;
-    userId: string;
-    albumId?: number | null;
-    createdAt: Date | null;
+    userId: string | null;
+    createdAt: Date;
     updatedAt: Date | null;
-}
+  }
 export interface IAlbum {
     id: number;
     name: string;
@@ -148,4 +147,36 @@ export async function getAlbumByName(name: string): Promise<IAlbum> {
     if (!album) throw new Error('Album not found');
   
     return album;
+  }
+
+  export async function getAlbumImages(albumId: number) {
+    return await db
+      .select()
+      .from(images)
+      .where((img) => eq(img.albumId, albumId));
+  }
+  
+  export async function updateImageAlbum(imageId: number, newAlbumId: number) {
+    try {
+      // Проверяем существование альбома
+      const album = await db.select().from(albums).where(albums.id.eq(newAlbumId)).first();
+      if (!album) {
+        throw new Error("Album not found");
+      }
+  
+      // Обновляем albumId у изображения
+      const result = await db.update(images)
+        .set({ albumId: newAlbumId })
+        .where(images.id.eq(imageId))
+        .returning('*'); // Вернуть обновленные строки
+  
+      if (result.length === 0) {
+        throw new Error("Image not found or update failed");
+      }
+  
+      return result[0]; // Возвращаем обновленное изображение
+    } catch (error: unknown) {
+      console.error("Error updating image albumId:", error);
+      throw error;
+    }
   }

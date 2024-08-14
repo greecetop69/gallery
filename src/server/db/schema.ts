@@ -1,12 +1,11 @@
-// schema.ts
 import { sql } from "drizzle-orm";
 import {
   index,
+  integer,
   pgTableCreator,
   serial,
   timestamp,
   varchar,
-  integer,
 } from "drizzle-orm/pg-core";
 
 export const createTable = pgTableCreator((name) => `gallery_${name}`);
@@ -33,8 +32,8 @@ export const images = createTable(
     id: serial("id").primaryKey(),
     name: varchar("name", { length: 256 }).notNull(),
     url: varchar("url", { length: 1024 }).notNull(),
-    albumId: integer('albumId').references(() => albums.id).notNull(),
-    userId: varchar("userId", { length: 256 }).notNull(),
+    albumId: integer('albumId').references(() => albums.id), 
+    userId: varchar("userId", { length: 256 }),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
@@ -44,4 +43,3 @@ export const images = createTable(
     nameIndex: index("gallery_name_idx").on(image.name),
   })
 );
-
