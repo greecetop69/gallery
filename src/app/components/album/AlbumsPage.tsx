@@ -20,30 +20,6 @@ export default function AlbumsPage() {
     loadAlbums().catch(console.error);
   }, []);
 
-  const updateAlbum = async () => {
-    try {
-      const response = await fetch("/api/updateAlbumId", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          imageId: 232,
-          newAlbumId: 1,
-        }),
-      });
-
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error("Error updating album:", error);
-    }
-  };
-
-  useEffect(() => {
-    updateAlbum().catch(console.error);
-  }, []);
-
   return (
     <div>
       <h1>Albums</h1>

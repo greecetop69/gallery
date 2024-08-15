@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useUploadThing } from "~/utils/uploadthing";
 import { toast } from "sonner";
-import { usePostHog } from "posthog-js/react";
 import { LoadingSpinnerIcon } from "~/app/icons/LoadingSpinnerIcon";
 import { UploadIcon } from "~/app/icons/UploadsIcon";
 
@@ -37,12 +36,9 @@ const useUploadThingInputProps = (...args: Input) => {
 
 export function SimpleUploadButton() {
   const router = useRouter();
-  const posthog = usePostHog()
-
 
   const { inputProps } = useUploadThingInputProps("imageUploader", {
     onUploadBegin() {
-      posthog.capture("upload-begin");
       toast(
         <div className="flex items-center gap-2 text-white">
           <LoadingSpinnerIcon /> <span className="text-lg">Uploading...</span>
