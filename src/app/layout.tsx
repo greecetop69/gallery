@@ -5,7 +5,6 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
 import { Toaster } from "~/components/ui/sonner";
-import { CSPostHogProvider } from "./_analytics/provider";
 import LocaleLayout from "./[locale]/layout";
 
 export const dynamic = "force-dynamic";
@@ -26,7 +25,6 @@ export default function RootLayout({
   return (
     <LocaleLayout params={{ locale: params.locale }}>
       <ClerkProvider>
-        <CSPostHogProvider>
           <html lang={params.locale} className="dark">
             <body className="flex flex-col gap-4 bg-background text-foreground">
               <ThemeProvider
@@ -46,7 +44,6 @@ export default function RootLayout({
               </ThemeProvider>
             </body>
           </html>
-        </CSPostHogProvider>
       </ClerkProvider>
     </LocaleLayout>
   );

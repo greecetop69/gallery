@@ -26,7 +26,8 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "@radix-ui/*": ["node_modules/@radix-ui/*"]
     }
   },
   "include": [
